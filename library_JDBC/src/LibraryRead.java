@@ -3,28 +3,18 @@ klasa startowa LibraryRead - wczytaj od użytkownika numer ISBN książki i wczy
 oraz wyświetl informacje o niej w konsoli
  */
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class LibraryRead extends BookDao {
+public class LibraryRead{
 
-    @Override
-    public Connection connect() {
-        return super.connect();
-    }
-
-    @Override
-    public void close() {
-        super.close();
-    }
 
     public Book read(long ID) {
         final String sql = "select ID, title, author, ISBN, year from books where ID = ?";
         try {
-            PreparedStatement prepStmt = connect().prepareStatement(sql);
+            PreparedStatement prepStmt = BookDao.connect().prepareStatement(sql);
             prepStmt.setLong(1, ID);
             ResultSet result = prepStmt.executeQuery();
             if (result.next()) {
@@ -37,7 +27,7 @@ public class LibraryRead extends BookDao {
                 System.out.println(book.toString());
             }
         } catch (SQLException e) {
-            System.out.println("Could not get employee");
+            System.out.println("Could not get book");
             e.printStackTrace();
         }
         return null;
@@ -49,7 +39,7 @@ public class LibraryRead extends BookDao {
 
         final String sql = "select * from books ";
         try {
-            PreparedStatement prepStmt = connect().prepareStatement(sql);
+            PreparedStatement prepStmt = BookDao.connect().prepareStatement(sql);
             ResultSet result = prepStmt.executeQuery();
             while (result.next()) {
                 System.out.println(result.getString(1)+" "+result.getString(2)+" "+result.getString(3)+" "+result.getString(4)+" "+result.getString(5)); //gets the first column's rows.

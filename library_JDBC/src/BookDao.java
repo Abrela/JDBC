@@ -8,10 +8,10 @@ public class BookDao {
     private static final String URL = "jdbc:mysql://localhost:3306/library?characterEncoding=utf8&useSSL=false";
     private static final String USER = "root";
     private static final String PASS = "toor";
-    private Connection connection;
+    private static Connection connection;
 
 
-    public Connection connect() {
+    public static Connection connect() {
 
         System.out.println("Connecting database...");
 
@@ -22,12 +22,13 @@ public class BookDao {
         } catch (ClassNotFoundException e) {
             System.out.println("No driver found");
         } catch (SQLException e) {
+            if (connection!=null) close();
             System.out.println("Could not establish connection");
         }
         return null;
     }
 
-    public void close() {
+    public static void close() {
         try {
             connection.close();
         } catch (SQLException e) {
